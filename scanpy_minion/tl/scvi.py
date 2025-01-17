@@ -1,8 +1,5 @@
 import anndata as ad 
-import scanpy as sc
-import scvi
 from typing import Union,List
-import matplotlib.pyplot as plt
 
 # Define function for running scVI (from Veronika)
 def run_scvi(adata : ad.AnnData, 
@@ -22,7 +19,12 @@ def run_scvi(adata : ad.AnnData,
              fig_dir : str | None = None,
              fig_prefix : str | None = 'scviEmbed',
              **kwargs):
-    
+    import scanpy as sc
+    import scvi
+    from typing import Union,List
+    import matplotlib.pyplot as plt
+
+   
     
     """Wrapper function for running scVI on anndata object.
     
