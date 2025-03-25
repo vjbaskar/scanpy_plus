@@ -1,17 +1,14 @@
-[project]
-name = "scanpy-minion"
+[tool.poetry]
+name = "scanpy-plus"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "Vijay",email = "vjbaskar@gmail.com"}
-]
+description = "A suite of commands to supplement scanpy"
+authors = ["Vijaya Baskar <vjbaskar@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "requests (>=2.32.3,<3.0.0)"
-]
+
+[tool.poetry.dependencies]
+python = "^3.10"
 
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
