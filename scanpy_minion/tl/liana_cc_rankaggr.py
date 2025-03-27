@@ -1,5 +1,7 @@
 def liana_cc_rankaggr(adata):
 
+import liana as li
+
     """
     This function calculates consensus ligand-receptor predictions  of individual methods. This is done by ranking and aggregating (RRA) the ligand-receptor interaction predictions from all methods.
     adata: anndata obj
