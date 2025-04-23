@@ -11,7 +11,7 @@ from . import pl as plot
 from . import io as ios # add notebook to anndata
 from . import tl as tl
 from . import pp as pp
-import scanpy_minion
+import scanpy_plus
 
 import scanpy as sc
-sc.external.minion =  scanpy_minion
+sc.external.scanpy_plus =  scanpy_plus
