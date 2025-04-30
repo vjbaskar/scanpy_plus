@@ -5,3 +5,4 @@ from .gsea import * # GSEA using gseapy
 from .map_to_dahlin import * # Map to dahlin
 from .tryumap import * # umap from scaling
 from .scvi import * # scvi
+from .liana_cc_rankaggr import * #Run LIANA
