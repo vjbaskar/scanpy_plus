@@ -3,29 +3,38 @@ from ..globimport import *
 class Gsea:
     """
     Run GSEA.
+    
     Uses Enrichr databases
-    
-    adata: anndata
-    groupby: obs column name based on which you have run sc.tl.rank_gene_groups()
-    organism: name of organism
-    gene_sets: gene_sets to use. Run Gsea.getdb() to get gene lists available.
-    de_pval_cutoff: pval_cutoff to use for rank_gene_groups results to get genes
-    de_log2fc_min: min log2fc to be for rank_gene_groups results to get genes
-    top_genes: [int] top genes to be used.
-    outdir: Store results in a dir.
-    
     https://gseapy.readthedocs.io/en/latest/introduction.html
-    
-    In adata the results are stored in adata.uns['gsea']
-    
+
     Example:
     gsea = cf.Gsea(adata)
     gsea.run_gsea()
     adata = gsea.get_results()
     gsea.get_results(group='14', pcutoff=0.05)
+
+    Args:
+        adata (AnnData): The AnnData object containing the data.
+        groupby (str): The column name in adata.obs to group by. Defaults to 'leiden'.
+        organism (str): The organism name. Defaults to 'mouse'.
+        gene_sets (list): List of gene sets to use. Defaults to ['PanglaoDB_Augmented_2021'].
+        de_pval_cutoff (float): P-value cutoff for differential expression. Defaults to 0.05.
+        de_log2fc_min (float): Minimum log2 fold change for differential expression. Defaults to 1.
+        top_genes (int): Number of top genes to consider. Defaults to 100.
+        outdir (str): Directory to store results. Defaults to None.
+        kwargs: Additional arguments to pass to gseapy.enrichr.
+
+    Returns:
+        AnnData: inplace. adata.uns['gsea']
+    
+    Example:
+        gsea = Gsea(adata)
+        gsea.run_gsea()
+        adata = gsea.get_results()
+        gsea.get_results(group='14', pcutoff=0.05)
     
     """
-    def __init__(self, adata, groupby = 'leiden', organism = 'mouse'):
+    def __init__(self, adata, groupby = 'leiden', organism = 'human'):
         self.adata = adata
         self.groupby = groupby
         self.adata.uns['gsea'] = dict()

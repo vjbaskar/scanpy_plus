@@ -10,6 +10,9 @@ from .is_outlier import * # Outlier
 from . import pl as plot
 from . import io as ios # add notebook to anndata
 from . import tl as tl
+
+
+
 from . import pp as pp
 import scanpy_plus
 
