@@ -1,2 +1,3 @@
 ignore/
 doc_run.sh
+__pycache__
