@@ -94,18 +94,71 @@ def run_cellbender_remove_background(
 
 
 def scverse_vm11(
-        adata: an.AnnData,
-        nmads: float = 5,
-        mt_nmads: float = 3,
-        mt_threshold: float = 10,
-        cellbender: bool = False,
-        hvg_flavour: str = "seurat_v3",
-        n_top_genes: int = 2000,
+    adata: an.AnnData,
+    nmads: float = 5,
+    mt_nmads: float = 3,
+    mt_threshold: float = 10,
+    cellbender: bool = False,
+    hvg_flavour: str = "seurat_v3",
+    n_top_genes: int = 2000,
+    n_comps: int = 50,
+    n_neighbours: int = 10,
+    min_dist: float = 0.5,
+    spread: float = 1.0,
+    cluster_resolution: float = 0.5,
+    scale = False
+):
+    """
+    Perform standard single-cell RNA-seq preprocessing and clustering using the scverse stack.
 
-        ):
+    This pipeline includes filtering, highly variable gene selection, dimensionality reduction,
+    neighborhood graph construction, UMAP embedding, and Leiden clustering.
+
+    Parameters
+    ----------
+    adata : anndata.AnnData
+        Annotated data matrix.
+    nmads : float, default 5
+        Threshold (in MADs) for general outlier filtering (e.g. low quality cells).
+    mt_nmads : float, default 3
+        Threshold (in MADs) for filtering based on mitochondrial gene expression.
+    mt_threshold : float, default 10
+        Absolute threshold (% of mitochondrial gene expression) beyond which cells are filtered.
+    cellbender : bool, default False
+        Whether to skip filtering steps assuming CellBender has already removed ambient RNA.
+    hvg_flavour : str, default "seurat_v3"
+        Method for selecting highly variable genes. Common options: "seurat_v3", "cell_ranger".
+    n_top_genes : int, default 2000
+        Number of highly variable genes to retain.
+    n_comps : int, default 50
+        Number of principal components to compute.
+    n_neighbours : int, default 10
+        Number of neighbors to compute in the neighborhood graph.
+    min_dist : float, default 0.5
+        Minimum distance parameter for UMAP.
+    spread : float, default 1.0
+        Spread parameter for UMAP.
+    cluster_resolution : float, default 0.5
+        Resolution parameter for Leiden clustering.
+    scale : bool, default False
+        Whether to scale the data to unit variance before PCA.
+
+    Returns
+    -------
+    None
+        The function modifies the `adata` object in-place with the results of preprocessing,
+        dimensionality reduction, and clustering (e.g., adding `.obs['leiden']`, `.obsm['X_umap']`, etc.).
+    
+    Example
+    -------
+    >>> import scanpy as sc
+    >>> from scanpy_plus.recipe import scverse_vm11
+    >>> adata = sc.read("path_to_your_data.h5ad")
+    >>> adata = scverse_vm11(adata, nmads=5, mt_nmads=3, mt_threshold=10, cellbender=False,
+    ...                     hvg_flavour="seurat_v3", n_top_genes=2000, n_comps=50,
+    ...                     n_neighbours=10, min_dist=0.5, spread=1.0, cluster_resolution=0.5, scale=False)
     """
-    Based on best practices from the scverse community, this function
-    """
+
     import numpy as np
     import scanpy as sc
     import seaborn as sns
@@ -176,9 +229,15 @@ def scverse_vm11(
     del scales_counts
 
     # 4. select highly variable genes
-    sc.pp.highly_variable_genes(adata,
+    # Change the adata options for different flavours
+    if hvg_flavour == "seurat_v3":
+       sc.pp.highly_variable_genes(adata,
                                 n_top_genes=n_top_genes,
                                 flavor=hvg_flavour, subset=True)
+       
+    else:
+        raise ValueError("Unknown flavour")
+
 
     ax = sns.scatterplot(
         data=adata.var, x="means", y="dispersions", hue="highly_deviant", s=5
@@ -187,6 +246,18 @@ def scverse_vm11(
     ax.set_ylim(None, 3)
     plt.show()
 
+    if scale:
+        sc.pp.scale(adata, max_value=10, zero_center=True)
     
+    # 5. PCA
+    sc.tl.pca(adata, n_comps=n_comps, use_highly_variable=True)
 
+    # 6. Neighbors
+    sc.pp.neighbors(adata, n_neighbors=n_neighbours, n_pcs=n_comps)
+
+    # 7. UMAP
+    sc.tl.umap(adata, min_dist=min_dist, spread=spread, random_state=42)
+
+    # 8. Clustering
+    sc.tl.leiden(adata, resolution=cluster_resolution, random_state=42)
     return adata
