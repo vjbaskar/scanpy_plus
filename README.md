@@ -19,8 +19,8 @@ To set up `scanpy_plus` in a clean environment, follow these steps:
 ### 1. Create a new conda environment
 
 ```bash
-conda create -n scanpy_env python=3.9
-conda activate scanpy_env
+conda create -n scanpyp_env python=3.12
+conda activate scanpyp_env
 ```
 
 ### 2. Install core dependencies
@@ -28,7 +28,7 @@ conda activate scanpy_env
 Install `scanpy` and `plotly`:
 
 ```bash
-pip install scanpy plotly
+python -m pip install scanpy plotly
 ```
 
 ### 3. Install `scanpy_plus`
@@ -36,7 +36,7 @@ pip install scanpy plotly
 Once dependencies are installed, install `scanpy_plus`:
 
 ```bash
-pip install scanpy_plus
+python -m pip install scanpy_plus
 ```
 
 ---
