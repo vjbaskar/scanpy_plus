@@ -46,7 +46,7 @@ pip install scanpy_plus
 ```python
 import scanpy_plus as sp
 
-# Your usage examples here
+
 ```
 
 ---
