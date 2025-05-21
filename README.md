@@ -53,9 +53,12 @@ import scanpy_plus as sp
 
 
 
-## Contributing
+## Resources
 
-Contributions are welcome! Feel free to open issues or pull requests.
+- API reference are available in the [documentation](https://scanpy-plus.readthedocs.io/en/latest/index.html)
+- Please use the [issues](https://github.com/vjbaskar/scanpy_plus/issues) to submit bug reports.
+- If you would like to contribute, check out our [contributing guide](https://github.com/vjbaskar/scanpy_plus/wiki)
+
 
 ---
 
