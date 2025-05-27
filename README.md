@@ -57,16 +57,16 @@ import scanpy_plus as sp
 
 | Module | Description |
 |--------|-------------|
-| `scanpy_plus.pp` | **Preprocessing tools** — extended filtering, normalization, or transformation methods to prepare AnnData objects. |
-| `scanpy_plus.tl` | **Tools** — custom analysis functions that extend or modify typical Scanpy workflows (e.g., clustering, annotation utilities). |
-| `scanpy_plus.pl` | **Plotting** — enhanced or interactive visualizations using Plotly and Matplotlib, including marker plots and UMAPs. |
-| `scanpy_plus.io` | **I/O utilities** — simplified functions for reading/writing AnnData or SCVI models, handling metadata, or reloading raw counts. |
-| `scanpy_plus.data` | **Reference data** — built-in markers, gene sets, or sample data used in plotting and annotation workflows. |
+| [`scanpy_plus.tl`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.tl.html) | **Tools** — custom analysis functions that extend or modify typical Scanpy workflows (e.g., clustering, annotation utilities). |
+| [`scanpy_plus.pp`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.pp.html) | **Preprocessing tools** — extended filtering, normalization, or transformation methods to prepare AnnData objects. |
+| [`scanpy_plus.pl`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.pl.html) | **Plotting** — enhanced or interactive visualizations using Plotly and Matplotlib, including marker plots and UMAPs. |
+| [`scanpy_plus.io`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.io.html) | **I/O utilities** — simplified functions for reading/writing AnnData or SCVI models, handling metadata, or reloading raw counts. |
+| [`scanpy_plus.data`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.data.html) | **Reference data** — built-in markers, gene sets, or sample data used in plotting and annotation workflows. |
 
 
 ### Submodule Overview
 
-#### 🔧 `scanpy_plus.tl` – Tools
+#### 🔧 [`scanpy_plus.tl`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.tl.html)  – Tools
 
 - `gsea` – Gene set enrichment analysis.
 - `map_to_dahlin` – Cell type mapping to Dahlin reference.
@@ -74,16 +74,16 @@ import scanpy_plus as sp
 - `run_scvi` – SCVI model setup and execution.
 - `tryumap` – Custom UMAP wrapper with smart defaults.
 
-#### ⚙️ `scanpy_plus.pp` – Preprocessing
+#### ⚙️ [`scanpy_plus.pp`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.pp.html) – Preprocessing
 
 - `assign_sex` – Estimate sample sex based on gene expression.
 - `cellcycle_corr` – Correct for cell cycle-related effects.
 
-#### 💾 `scanpy_plus.io` – Input/Output
+#### 💾 [`scanpy_plus.io`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.io.html) – Input/Output
 
 - `boot` – Load/save AnnData or SCVI-related objects with version tracking.
 
-#### 📊 `scanpy_plus.pl` – Plotting
+#### 📊 [`scanpy_plus.pl`](https://scanpy-plus.readthedocs.io/en/latest/scanpy_plus.pl.html) – Plotting
 
 - `haem_markers` – Dotplots and expression views of hematopoietic markers.
 - `histplot` – Histogram plotting utilities.
@@ -99,7 +99,7 @@ import scanpy_plus as sp
 
 #### 📂 `scanpy_plus.data` – Reference Data
 
-- `load` – Access predefined marker sets and reference datasets.
+- `load` – Access reference datasets.
 
 ---
 
@@ -115,11 +115,6 @@ adata = sc.read_h5ad("sample.h5ad")
 sp.tl.run_scvi(adata)
 sp.pl.plotly_umap(adata)
 
-# Annotate using Dahlin reference
-sp.tl.map_to_dahlin(adata)
-
-# Access default marker sets
-markers = sp.data.load.get_default_markers()
 
 
 ```
