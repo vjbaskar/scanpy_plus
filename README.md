@@ -38,7 +38,7 @@ python -m pip install scanpy plotly
 Once dependencies are installed, install `scanpy_plus`:
 
 ```bash
-python -m pip install scanpy_plus
+python -m pip install git+https://github.com/vjbaskar/scanpy_plus.git
 ```
 
 
