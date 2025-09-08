@@ -95,7 +95,39 @@ def run_scvi(adata : ad.AnnData,
         adata_scvi = adata_scvi[:,~adata_scvi.var['cite']].copy() # remove cite genes
     gene_list = adata_scvi.var_names.tolist()
     if exclude_cc_genes:
-        cell_cycle_genes = [x.strip() for x in open('/nfs/team205/vk8/processed_data/regev_lab_cell_cycle_genes.txt')]
+        # Define the file path (in the current directory) and the URL
+        file_path = pathlib.Path("regev_lab_cell_cycle_genes.txt")
+        url = "https://raw.githubusercontent.com/theislab/scanpy_usage/master/180209_cell_cycle/data/regev_lab_cell_cycle_genes.txt"
+
+        if not file_path.is_file():
+            print(f"'{file_path}' not found. Downloading...")
+            try:
+                # Fetch the content from the URL
+                response = requests.get(url)
+                # Raise an exception for bad status codes (like 404)
+                response.raise_for_status()
+
+                # Save the content to the file
+                with open(file_path, "w") as f:
+                    f.write(response.text)
+
+                print(f"Successfully saved to '{file_path}'")
+
+            except requests.exceptions.RequestException as e:
+                print(f"Error downloading file: {e}")
+
+        else:
+            print(f" File '{file_path}' already exists. No download needed.")
+    cell_cycle_genes = [x.strip() for x in open('regev_lab_cell_cycle_genes.txt')]
+    [gene_list.remove(i) for i in cell_cycle_genes if i in gene_list]
+    if exclude_mt_genes:
+        mt_genes = adata.var_names[adata.var_names.str.startswith('MT-')]
+        [gene_list.remove(i) for i in mt_genes if i in gene_list]
+    if exclude_vdjgenes:
+        import re
+        [gene_list.remove(i) for i in gene_list if re.search('^TR[AB][VDJ]|^IG[HKL][VDJC]', i)]
+    print('Removed excluded genes')
+         cell_cycle_genes = [x.strip() for x in open('/nfs/team205/vk8/processed_data/regev_lab_cell_cycle_genes.txt')]
         [gene_list.remove(i) for i in cell_cycle_genes if i in gene_list]
     if exclude_mt_genes:
         mt_genes = adata.var_names[adata.var_names.str.startswith('MT-')]
