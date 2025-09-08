@@ -126,8 +126,8 @@ def run_scvi(adata : ad.AnnData,
     if exclude_vdjgenes:
         import re
         [gene_list.remove(i) for i in gene_list if re.search('^TR[AB][VDJ]|^IG[HKL][VDJC]', i)]
-    print('Removed excluded genes')
-         cell_cycle_genes = [x.strip() for x in open('/nfs/team205/vk8/processed_data/regev_lab_cell_cycle_genes.txt')]
+        print('Removed excluded genes')
+        cell_cycle_genes = [x.strip() for x in open('regev_lab_cell_cycle_genes.txt')]
         [gene_list.remove(i) for i in cell_cycle_genes if i in gene_list]
     if exclude_mt_genes:
         mt_genes = adata.var_names[adata.var_names.str.startswith('MT-')]
