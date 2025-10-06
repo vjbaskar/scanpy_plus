@@ -1,7 +1,11 @@
 from ..globimport import *
 
-def haem_markers(adata, markers, **kwargs):
+def umap_markers(adata, markers, **kwargs):
     """
+    UMAP of a set of markers
+    adata: anndata
+    markers: a dict of markers. pd.DataFrame({"celltype1":[Gene1,Gene2...]})
+    kwargs: passed to sc.pl.umap
     """
     for k,v in markers.items():
         olap = list(set(adata.var_names) & set(v))
