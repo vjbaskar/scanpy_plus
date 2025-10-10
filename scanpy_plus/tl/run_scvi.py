@@ -3,7 +3,7 @@ from typing import Union,List
 import scanpy as sc
 import matplotlib.pyplot as plt
 
-   
+    
 # Define function for running scVI (from Veronika)
 def run_scvi(adata : ad.AnnData, 
              layer_raw : str = 'counts',
@@ -152,6 +152,13 @@ def run_scvi(adata : ad.AnnData,
     run_scvi.model.SCVI.setup_anndata(adata_scvi, batch_key=batch_scvi,
                                   categorical_covariate_keys=cat_cov_scvi,
                                   continuous_covariate_keys=cont_cov_scvi)
+    if categorical_covariate_keys not None:
+        if  continuous_covariate_keys=cont_cov_scvi not None:
+             run_scvi.model.SCVI.setup_anndata(adata_scvi, batch_key=batch_scvi,
+                                  categorical_covariate_keys=cat_cov_scvi,
+                                  continuous_covariate_keys=cont_cov_scvi)
+    
+
     scvi_kwargs = {k: v for k, v in kwargs.items() if k in run_scvi.model.SCVI.__init__.__code__.co_varnames + run_scvi.module.VAE.__init__.__code__.co_varnames}
     vae = run_scvi.model.SCVI(adata_scvi, **scvi_kwargs)
     train_kwargs = {k: v for k, v in kwargs.items() if k in vae.train.__code__.co_varnames + run_scvi.train.Trainer.__init__.__code__.co_varnames}
@@ -215,3 +222,76 @@ def run_scvi(adata : ad.AnnData,
     results['data'] = adata_raw_scvi
     results['vae'] = vae
     return (results)
+ 
+
+
+ def clean_genes(data, additional_genes_to_exclude =[]):
+    """
+    Clean up gene list. Remove cc, hb, mt, ribo and custom list of genes
+    """
+    from loguru import logger 
+    import pandas as pd
+    cc_genes_csv=pd.read_csv('regev_lab_cell_cycle_genes.txt',  names=["gene_ids"], skiprows=1)
+    cc_genes_csv = cc_genes_csv["gene_ids"]
+    cc_genes_csv = list(cc_genes_csv)
+
+    # Mark MT/ribo/Hb/cell cycle genes
+    data.var['mt'] = data.var_names.str.startswith('MT-')  
+    data.var["ribo"] = data.var_names.str.startswith(("RPS", "RPL"))
+    data.var["hb"] = data.var_names.str.contains(("^HB[^(P)]")) 
+    #data.var["hb"] = data.var_names.str.startswith(("HBA1", "HBA2", "HBB", "HBD","HBM", "HBZ", "HBG1", "HBG2", "HBQ1"))
+    data.var["cc"] = data.var_names.isin(cc_genes_csv)
+    mask_to_exclude = (
+        data.var.cc | 
+        data.var.hb | 
+        data.var.mt |
+        data.var.ribo |
+        data.var.index.isin(additional_genes_to_exclude)
+    )
+    logger.info(f"Genes before removal: {data.shape[1]}")
+    mask_to_include = ~mask_to_exclude
+    data  = data[:, mask_to_include].copy()
+    logger.info(f"Genes after removal: {data.shape[1]}")
+    return data
+
+
+def run_scvi(adata_hvg,
+            clean_genes = True    
+             BATCH_KEY, 
+             N_LATENT=10, 
+             N_LAYERS=1,
+             MAX_EPOCHS=10,
+             BATCH_SIZE=512,
+            CATEGORICAL_COV=[], 
+            CONTINUOUS_COV=[]
+        DISPERSION = 'gene-batch',
+        kwargs**
+):
+    import scvi
+    if clean_genes:
+        adata_hvg = clean_genes(adata_hvg)
+    scvi.model.SCVI.setup_anndata(adata_hvg, 
+                              layer="counts",
+                                categorical_covariate_keys=CATEGORICAL_COV,
+                                continuous_covariate_keys = CONTINUOUS_COV,
+                                    batch_key=BATCH_KEY,
+                                    #                                labels_key="broad_annotation",
+                                    # unlabeled_category="New/unlabelled/excluded"
+                                   )
+    model = scvi.model.SCVI(adata_hvg, 
+                    dispersion=DISPERSION,
+                    n_latent = N_LATENT, 
+                    n_layers = N_LAYERS,
+                   )
+
+    #train_kwargs = {k: v for k, v in kwargs.items() if k in vae.train.__code__.co_varnames + run_scvi.train.Trainer.__init__.__code__.co_varnames}
+    #vae.train(**train_kwargs)
+    model.train(max_epochs=MAX_EPOCHS,             
+                early_stopping=True,
+               # accelerator='gpu',
+               early_stopping_patience=5, #use_gpu =True, 
+               batch_size=BATCH_SIZE)
+    
+
+    print("model trained")
+    return adata_hvg, model

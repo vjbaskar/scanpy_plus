@@ -5,3 +5,4 @@ from .gsea import * # GSEA using gseapy
 #from .map_to_dahlin import * # Map to dahlin
 from .tryumap import tryumap # umap from scaling
 from .run_scvi import run_scvi
+from .run_scvi import clean_genes
