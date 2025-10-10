@@ -139,7 +139,8 @@ def run_scvi(adata : ad.AnnData,
     
     # Select highly variable genes
     adata_scvi = adata_scvi[:,gene_list].copy()
-    hvg_kwargs = {'adata' : adata_scvi, 'batch_key' : batch_hv, 'n_top_genes' : hvg, 'flavor' : 'seurat_v3'}
+    #hvg_kwargs = {'adata' : adata_scvi, 'batch_key' : batch_hv, 'n_top_genes' : hvg, 'flavor' : 'seurat_v3'}
+    hvg_kwargs = {'adata' : adata_scvi, 'batch_key' : batch_hv, 'n_top_genes' : hvg}
     hvg_kwargs.update({k:v for k,v in kwargs.items() if k in sc.pp.highly_variable_genes.__code__.co_varnames})
     sc.pp.highly_variable_genes(**hvg_kwargs)
     selected_genes = list(set(adata_scvi.var.loc[adata_scvi.var['highly_variable']].index.tolist() + include_genes))
@@ -147,6 +148,7 @@ def run_scvi(adata : ad.AnnData,
     print(f'Highly variable genes selected in total {adata_scvi.shape}')
     
     # Run scVI
+
     run_scvi.model.SCVI.setup_anndata(adata_scvi, batch_key=batch_scvi,
                                   categorical_covariate_keys=cat_cov_scvi,
                                   continuous_covariate_keys=cont_cov_scvi)
