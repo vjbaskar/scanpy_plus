@@ -10,7 +10,8 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 10
 
    scanpy_plus.pp.assign_sex
+   scanpy_plus.pp.cellbender
    scanpy_plus.pp.cellcycle_corr

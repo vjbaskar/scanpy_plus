@@ -10,9 +10,8 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 10
 
-   scanpy_plus.pl.haem_markers
    scanpy_plus.pl.histplot
    scanpy_plus.pl.pca_correlation
    scanpy_plus.pl.perma_plot
@@ -23,3 +22,4 @@ Submodules
    scanpy_plus.pl.umap3dPlotting
    scanpy_plus.pl.umap_allobs
    scanpy_plus.pl.umap_grid
+   scanpy_plus.pl.umap_markers

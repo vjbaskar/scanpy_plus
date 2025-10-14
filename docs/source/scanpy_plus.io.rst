@@ -10,6 +10,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 10
 
+   scanpy_plus.io.adata_split
    scanpy_plus.io.boot
