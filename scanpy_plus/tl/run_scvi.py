@@ -152,8 +152,8 @@ def run_scvi(adata : ad.AnnData,
     run_scvi.model.SCVI.setup_anndata(adata_scvi, batch_key=batch_scvi,
                                   categorical_covariate_keys=cat_cov_scvi,
                                   continuous_covariate_keys=cont_cov_scvi)
-    if categorical_covariate_keys not None:
-        if  continuous_covariate_keys=cont_cov_scvi not None:
+    if categorical_covariate_keys is not None:
+        if  continuous_covariate_keys=cont_cov_scvi is not None:
              run_scvi.model.SCVI.setup_anndata(adata_scvi, batch_key=batch_scvi,
                                   categorical_covariate_keys=cat_cov_scvi,
                                   continuous_covariate_keys=cont_cov_scvi)
