@@ -3,11 +3,11 @@ from typing import Union,List
 import scanpy as sc
 import matplotlib.pyplot as plt
 
-    
+
 # Define function for running scVI (from Veronika)
 
 
- def clean_genes(data, additional_genes_to_exclude =[]):
+def clean_genes(data, additional_genes_to_exclude =[]):
     """
     Clean up gene list. Remove cc, hb, mt, ribo and custom list of genes
     """
@@ -38,42 +38,42 @@ import matplotlib.pyplot as plt
 
 
 def run_scvi(adata_hvg,
-            clean_genes = True    
              BATCH_KEY, 
+             clean_genes = True,
              N_LATENT=10, 
              N_LAYERS=1,
              MAX_EPOCHS=10,
              BATCH_SIZE=512,
-            CATEGORICAL_COV=[], 
-            CONTINUOUS_COV=[]
-        DISPERSION = 'gene-batch',
-        kwargs**
-):
+             CATEGORICAL_COV=[], 
+             CONTINUOUS_COV=[],
+             DISPERSION = 'gene-batch',
+             **kwargs
+            ):
     import scvi
     if clean_genes:
         adata_hvg = clean_genes(adata_hvg)
-    scvi.model.SCVI.setup_anndata(adata_hvg, 
-                              layer="counts",
-                                categorical_covariate_keys=CATEGORICAL_COV,
-                                continuous_covariate_keys = CONTINUOUS_COV,
-                                    batch_key=BATCH_KEY,
-                                    #                                labels_key="broad_annotation",
-                                    # unlabeled_category="New/unlabelled/excluded"
-                                   )
-    model = scvi.model.SCVI(adata_hvg, 
-                    dispersion=DISPERSION,
-                    n_latent = N_LATENT, 
-                    n_layers = N_LAYERS,
-                   )
+        scvi.model.SCVI.setup_anndata(adata_hvg, 
+                                      layer="counts",
+                                      categorical_covariate_keys=CATEGORICAL_COV,
+                                      continuous_covariate_keys = CONTINUOUS_COV,
+                                      batch_key=BATCH_KEY,
+                                      #                                labels_key="broad_annotation",
+                                      # unlabeled_category="New/unlabelled/excluded"
+                                     )
+        model = scvi.model.SCVI(adata_hvg, 
+                                dispersion=DISPERSION,
+                                n_latent = N_LATENT, 
+                                n_layers = N_LAYERS,
+                               )
 
     #train_kwargs = {k: v for k, v in kwargs.items() if k in vae.train.__code__.co_varnames + run_scvi.train.Trainer.__init__.__code__.co_varnames}
     #vae.train(**train_kwargs)
     model.train(max_epochs=MAX_EPOCHS,             
                 early_stopping=True,
-               # accelerator='gpu',
-               early_stopping_patience=5, #use_gpu =True, 
-               batch_size=BATCH_SIZE)
-    
+                # accelerator='gpu',
+                early_stopping_patience=5, #use_gpu =True, 
+                batch_size=BATCH_SIZE)
+
 
     print("model trained")
     return adata_hvg, model
