@@ -82,7 +82,8 @@ def scvi_plot(model):
 
 
 def run_scvi(adata_hvg,
-             batch_key, 
+             batch_key,
+             raw_count_layer = 'counts',
              clean_genes = True,
              n_latent=10, 
              n_layers=1,
@@ -91,6 +92,7 @@ def run_scvi(adata_hvg,
              categorical_covariate_keys=[], 
              continuous_covariate_keys=[],
              dispersion = 'gene-batch',
+
              latent_key='X_scvi',
              **kwargs
             ):
@@ -102,7 +104,7 @@ def run_scvi(adata_hvg,
     
     logger.info("Init model")
     scvi.model.SCVI.setup_anndata(adata_hvg, 
-                                      layer="counts",
+                                      layer=raw_count_layer,
                                       categorical_covariate_keys=categorical_covariate_keys,
                                       continuous_covariate_keys = continuous_covariate_keys,
                                       batch_key=batch_key,
