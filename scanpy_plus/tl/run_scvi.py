@@ -71,7 +71,6 @@ def scvi_plot(model):
     If loss is noisy or doesn’t decrease → model may not be converging (try smaller LR, more epochs, or normalize input better)
     """
     import matplotlib.pyplot as plt
-    import seaborn as sns
 
     plt.plot(model.history["elbo_train"], label="train")
     plt.plot(model.history["elbo_validation"], label="validation")
