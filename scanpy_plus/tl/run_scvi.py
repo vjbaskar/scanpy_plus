@@ -91,10 +91,12 @@ def run_scvi(adata_hvg,
              categorical_covariate_keys=[], 
              continuous_covariate_keys=[],
              dispersion = 'gene-batch',
+             latent_key='X_scvi',
              **kwargs
             ):
     from loguru import logger 
     import scvi
+    scvi.settings.seed = 42
     if clean_genes:
         adata_hvg = clean_genes(adata_hvg)
     
@@ -119,5 +121,7 @@ def run_scvi(adata_hvg,
                 batch_size=batch_size)
     logger.info("Plotting ELBO loss")
     scvi_plot(model)
+    logger.info(f"Getting obsm updated. Your scvi model will be stored in {latent_key}")
+    adata_scvi.obsm[latent_key] = model.get_latent_representation()
     return adata_hvg, model
 
