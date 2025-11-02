@@ -1,6 +1,6 @@
 from ..globimport import *
 
-def splitscatter(data, x, y, groupby=None, colorby=None, **kwargs):
+def splitscatter(data, x, y, groupby=None, colorby=None, ncols = 3, **kwargs):
     import scanpy as sc
     """
     Similar to scanpy violin plot but here histograms are plotted
@@ -26,5 +26,5 @@ def splitscatter(data, x, y, groupby=None, colorby=None, **kwargs):
         g = sns.scatterplot(df, x = x, y = y, **kwargs)
     else:
         if colorby == None: colorby == groupby
-        g = sns.displot(df, x = x, y = y, col = colorby, facet_kws=dict(sharey=False), hue=groupby, **kwargs)
+        g = sns.displot(df, x = x, y = y, col = colorby, facet_kws=dict(sharey=False), hue=groupby, col_wrap=ncols,  **kwargs)
     return g
