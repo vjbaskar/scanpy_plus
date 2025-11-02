@@ -84,7 +84,7 @@ def scvi_plot(model):
 def run_scvi(adata_hvg,
              batch_key,
              raw_count_layer = 'counts',
-             clean_genes = True,
+             clean_genes_before_integration = True,
              n_latent=10, 
              n_layers=1,
              max_epochs=10,
@@ -96,10 +96,13 @@ def run_scvi(adata_hvg,
              latent_key='X_scvi',
              **kwargs
             ):
+            """
+            Run scvi
+            """
     from loguru import logger 
     import scvi
     scvi.settings.seed = 42
-    if clean_genes:
+    if clean_genes_before_integration:
         adata_hvg = clean_genes(adata_hvg)
     
     logger.info("Init model")
