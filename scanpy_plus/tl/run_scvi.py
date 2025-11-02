@@ -4,8 +4,32 @@ import scanpy as sc
 import matplotlib.pyplot as plt
 
 
-# Define function for running scVI (from Veronika)
+def download_cc():
+    """
+    Download cellcycle genes
+    """
+    import requests
+    import os
 
+    # The official URL for the gene list
+    url = "https://raw.githubusercontent.com/scverse/scanpy_usage/master/180209_cell_cycle/data/regev_lab_cell_cycle_genes.txt"
+
+    # The desired local filename
+    filename = "regev_lab_cell_cycle_genes.txt"
+
+    # Check if the file already exists before downloading
+    if not os.path.exists(filename):
+        print(f"Downloading {filename}...")
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception for bad status codes
+            with open(filename, 'w') as f:
+                f.write(response.text)
+            print(f"Successfully downloaded {filename}.")
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading the file: {e}")
+    else:
+        print(f"{filename} already exists. Skipping download.")
 
 def clean_genes(data, additional_genes_to_exclude =[]):
     """
@@ -13,6 +37,7 @@ def clean_genes(data, additional_genes_to_exclude =[]):
     """
     from loguru import logger 
     import pandas as pd
+    download_cc()
     cc_genes_csv=pd.read_csv('regev_lab_cell_cycle_genes.txt',  names=["gene_ids"], skiprows=1)
     cc_genes_csv = cc_genes_csv["gene_ids"]
     cc_genes_csv = list(cc_genes_csv)
