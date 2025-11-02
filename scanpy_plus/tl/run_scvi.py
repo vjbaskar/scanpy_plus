@@ -81,24 +81,24 @@ def scvi_plot(model):
     plt.show()
 
 
-def run_scvi(adata_hvg,
-             batch_key,
-             raw_count_layer = 'counts',
-             clean_genes_before_integration = True,
-             n_latent=10, 
-             n_layers=1,
-             max_epochs=10,
-             batch_size=512,
-             categorical_covariate_keys=[], 
-             continuous_covariate_keys=[],
-             dispersion = 'gene-batch',
+def run_scvi(adata_hvg, 
+    batch_key,
+    raw_count_layer = 'counts',
+    clean_genes_before_integration = True,
+    n_latent=10, 
+    n_layers=1,
+    max_epochs=10,
+    batch_size=512,
+    categorical_covariate_keys=[], 
+    continuous_covariate_keys=[],
+    dispersion = 'gene-batch',
 
-             latent_key='X_scvi',
-             **kwargs
-            ):
-            """
-            Run scvi
-            """
+    latent_key='X_scvi',
+    **kwargs
+    ):
+    """
+    Run scvi
+    """
     from loguru import logger 
     import scvi
     scvi.settings.seed = 42
