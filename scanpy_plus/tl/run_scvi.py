@@ -2,6 +2,34 @@ import anndata as ad
 from typing import Union,List
 import scanpy as sc
 import matplotlib.pyplot as plt
+from loguru import logger
+
+def download_cc():
+    """
+    Download cellcycle genes
+    """
+    import requests
+    import os
+
+    # The official URL for the gene list
+    url = "https://raw.githubusercontent.com/scverse/scanpy_usage/master/180209_cell_cycle/data/regev_lab_cell_cycle_genes.txt"
+
+    # The desired local filename
+    filename = "regev_lab_cell_cycle_genes.txt"
+
+    # Check if the file already exists before downloading
+    if not os.path.exists(filename):
+        print(f"Downloading {filename}...")
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception for bad status codes
+            with open(filename, 'w') as f:
+                f.write(response.text)
+                print(f"Successfully downloaded {filename}.")
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading the file: {e}")
+    else:
+        print(f"{filename} already exists. Skipping download.")
 
 
 # Define function for running scVI (from Veronika)
@@ -13,6 +41,7 @@ def clean_genes(data, additional_genes_to_exclude =[]):
     """
     from loguru import logger 
     import pandas as pd
+    download_cc()
     cc_genes_csv=pd.read_csv('regev_lab_cell_cycle_genes.txt',  names=["gene_ids"], skiprows=1)
     cc_genes_csv = cc_genes_csv["gene_ids"]
     cc_genes_csv = list(cc_genes_csv)
@@ -39,7 +68,8 @@ def clean_genes(data, additional_genes_to_exclude =[]):
 
 def run_scvi(adata_hvg,
              BATCH_KEY, 
-             clean_genes = True,
+             gene_cleanup = True,
+             counts_layer = "counts",
              N_LATENT=10, 
              N_LAYERS=1,
              MAX_EPOCHS=10,
@@ -50,13 +80,16 @@ def run_scvi(adata_hvg,
              **kwargs
             ):
     import scvi
-    if clean_genes:
+    scvi.settings.seed = 0
+    if gene_cleanup:
+        logger.info("Cleaning genes before running scVI")
         adata_hvg = clean_genes(adata_hvg)
+        logger.info("Prepping model")
         scvi.model.SCVI.setup_anndata(adata_hvg, 
-                                      layer="counts",
+                                      layer=counts_layer,
                                       categorical_covariate_keys=CATEGORICAL_COV,
                                       continuous_covariate_keys = CONTINUOUS_COV,
-                                      batch_key=BATCH_KEY,
+                                      batch_key=BATCH_KEY
                                       #                                labels_key="broad_annotation",
                                       # unlabeled_category="New/unlabelled/excluded"
                                      )
@@ -68,6 +101,7 @@ def run_scvi(adata_hvg,
 
     #train_kwargs = {k: v for k, v in kwargs.items() if k in vae.train.__code__.co_varnames + run_scvi.train.Trainer.__init__.__code__.co_varnames}
     #vae.train(**train_kwargs)
+    logger.info("Training model")
     model.train(max_epochs=MAX_EPOCHS,             
                 early_stopping=True,
                 # accelerator='gpu',
