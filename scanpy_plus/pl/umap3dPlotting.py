@@ -1,5 +1,4 @@
 from ..globimport import *
-import plotly.express as px
 
 def umap3dPlotting(adata, color = 'celltype', cols = ['leiden', 'condition'],
                    title = '3D UMAP', marker_size = 1, 
@@ -21,6 +20,7 @@ def umap3dPlotting(adata, color = 'celltype', cols = ['leiden', 'condition'],
     figshow: boolean. Show figure
     
     """
+    import plotly.express as px
     print("Generating data frame")
     umap_matx = adata.obsm['X_umap'].copy()
     umap_df = pd.DataFrame(umap_matx)

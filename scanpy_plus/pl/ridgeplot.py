@@ -1,6 +1,6 @@
 from ..globimport import *
 
-def ridgeplot(adata, x = 'log1p_total_counts', split_by = 'pool', title = None, alpha = 1, height = 1.2, aspect = 9, overlap = 0.3):
+def ridgeplot(adata, keys = 'log1p_total_counts', split_by = 'pool', title = None, alpha = 1, height = 1.2, aspect = 9, overlap = 0.3):
     
     """
     Generates ridgeplot akin to Seurat.
@@ -14,7 +14,7 @@ def ridgeplot(adata, x = 'log1p_total_counts', split_by = 'pool', title = None, 
     overlap: overlap between two kdeplots.
     returns: None
     """
-    
+    x = keys
     if title == None:
         title = x + " | " + split_by
     

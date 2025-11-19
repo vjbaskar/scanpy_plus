@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'scanpy_plus'
-copyright = '2025, Vijaya Baskar, Masami Kuri'
-author = 'Vijaya Baskar, Masami Kuri'
+copyright = '2025, Vijaya Baskar'
+author = 'Vijaya Baskar'
 release = 'v1.0.0'
 
 # -- General configuration ---------------------------------------------------

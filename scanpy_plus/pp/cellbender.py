@@ -66,8 +66,7 @@ def cellbender(
 
     # Fake command-line input
     sys.argv = ["cellbender"] + args
-
-
+    
     try:
         base_cli.main()
         
