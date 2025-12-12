@@ -173,7 +173,6 @@ def run_scvi(adata_hvg,
     #train_kwargs = {k: v for k, v in kwargs.items() if k in vae.train.__code__.co_varnames + run_scvi.train.Trainer.__init__.__code__.co_varnames}
     #vae.train(**train_kwargs)
     logger.info("Training model")
-    model.train(max_epochs=MAX_EPOCHS,             
     model.train(max_epochs=max_epochs,             
                 early_stopping=True,
                 # accelerator='gpu',
