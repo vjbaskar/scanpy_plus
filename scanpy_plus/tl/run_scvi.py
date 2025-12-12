@@ -94,32 +94,6 @@ def scvi_plot(model):
     Plots to help if scvi has learnt
     If training and validation curves converge → good fit
 
-<<<<<<< HEAD
-def run_scvi(adata_hvg,
-             BATCH_KEY, 
-             gene_cleanup = True,
-             counts_layer = "counts",
-             N_LATENT=10, 
-             N_LAYERS=1,
-             MAX_EPOCHS=10,
-             BATCH_SIZE=512,
-             CATEGORICAL_COV=[], 
-             CONTINUOUS_COV=[],
-             DISPERSION = 'gene-batch',
-             **kwargs
-            ):
-    import scvi
-    scvi.settings.seed = 0
-    if gene_cleanup:
-        logger.info("Cleaning genes before running scVI")
-        adata_hvg = clean_genes(adata_hvg)
-        logger.info("Prepping model")
-        scvi.model.SCVI.setup_anndata(adata_hvg, 
-                                      layer=counts_layer,
-                                      categorical_covariate_keys=CATEGORICAL_COV,
-                                      continuous_covariate_keys = CONTINUOUS_COV,
-                                      batch_key=BATCH_KEY
-=======
     If validation loss diverges → possible overfitting or learning-rate issue
 
     If loss is noisy or doesn’t decrease → model may not be converging (try smaller LR, more epochs, or normalize input better)
