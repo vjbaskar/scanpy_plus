@@ -2,6 +2,34 @@ import anndata as ad
 from typing import Union,List
 import scanpy as sc
 import matplotlib.pyplot as plt
+from loguru import logger
+
+def download_cc():
+    """
+    Download cellcycle genes
+    """
+    import requests
+    import os
+
+    # The official URL for the gene list
+    url = "https://raw.githubusercontent.com/scverse/scanpy_usage/master/180209_cell_cycle/data/regev_lab_cell_cycle_genes.txt"
+
+    # The desired local filename
+    filename = "regev_lab_cell_cycle_genes.txt"
+
+    # Check if the file already exists before downloading
+    if not os.path.exists(filename):
+        print(f"Downloading {filename}...")
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception for bad status codes
+            with open(filename, 'w') as f:
+                f.write(response.text)
+                print(f"Successfully downloaded {filename}.")
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading the file: {e}")
+    else:
+        print(f"{filename} already exists. Skipping download.")
 
 
 def download_cc():
@@ -118,6 +146,7 @@ def run_scvi(adata_hvg,
 
     #train_kwargs = {k: v for k, v in kwargs.items() if k in vae.train.__code__.co_varnames + run_scvi.train.Trainer.__init__.__code__.co_varnames}
     #vae.train(**train_kwargs)
+    logger.info("Training model")
     model.train(max_epochs=max_epochs,             
                 early_stopping=True,
                 # accelerator='gpu',
