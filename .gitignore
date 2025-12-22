@@ -1,2 +1,6 @@
 ignore/
 doc_run.sh
+tutorials/data/
+tutorials/regev_lab_cell_cycle_genes.txt
+scanpy_plus/tl/__pycache__/run_scvi.cpython-313.pyc
+**/*.pyc
