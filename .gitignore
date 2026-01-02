@@ -1,4 +1,5 @@
 ignore/
+venv/
 doc_run.sh
 tutorials/data/
 tutorials/regev_lab_cell_cycle_genes.txt
