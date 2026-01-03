@@ -58,12 +58,16 @@ def select_hvg(
     import numpy as np
     import scanpy as sc
     
+    logger.info("Cleaning batches: relegate small batches out")
+    new_batch_key = batch_key + "_1"
+    adata, new_batch_key = clean_batches(adata, batch_key, new_batch_key, min_cells=1000)
+    
     logger.info(f"Selecting HVGs with {ngenes} genes and {nbatches_min} batches")
     sc.pp.highly_variable_genes(
         adata,
         n_top_genes=ngenes,
         subset=False,
-        batch_key=batch_key,
+        batch_key=new_batch_key,
         check_values=False,
     )
 

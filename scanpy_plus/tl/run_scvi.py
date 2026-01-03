@@ -125,7 +125,7 @@ def run_scvi(adata_hvg,
     ):
     """
     Run scvi
-    returns: adata_hvg, model
+    returns: adata_hvg, plt, model
     """
     from loguru import logger 
     import scvi
@@ -158,8 +158,8 @@ def run_scvi(adata_hvg,
                 )
     logger.info("Plotting ELBO loss")
     plt = scvi_plot(model)
-    plt.show()
+    #plt.show()
     logger.info(f"Getting obsm updated. Your scvi model will be stored in {latent_key}")
     adata_hvg.obsm[latent_key] = model.get_latent_representation()
-    return adata_hvg, model
+    return  adata_hvg, plt, model
 
