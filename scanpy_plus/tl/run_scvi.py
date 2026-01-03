@@ -105,7 +105,7 @@ def scvi_plot(model):
     plt.xlabel("Epochs")
     plt.ylabel("ELBO")
     plt.legend()
-    plt.show()
+    return plt
 
 
 def run_scvi(adata_hvg, 
@@ -125,6 +125,7 @@ def run_scvi(adata_hvg,
     ):
     """
     Run scvi
+    returns: adata_hvg, model
     """
     from loguru import logger 
     import scvi
@@ -149,11 +150,15 @@ def run_scvi(adata_hvg,
     logger.info("Training model")
     model.train(max_epochs=max_epochs,             
                 early_stopping=True,
-                # accelerator='gpu',
+                accelerator='auto',
                 early_stopping_patience=5, #use_gpu =True, 
-                batch_size=batch_size)
+                batch_size=batch_size,
+                check_val_every_n_epoch=1,
+                
+                )
     logger.info("Plotting ELBO loss")
-    scvi_plot(model)
+    plt = scvi_plot(model)
+    plt.show()
     logger.info(f"Getting obsm updated. Your scvi model will be stored in {latent_key}")
     adata_hvg.obsm[latent_key] = model.get_latent_representation()
     return adata_hvg, model
