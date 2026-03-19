@@ -6,3 +6,9 @@ tutorials/regev_lab_cell_cycle_genes.txt
 scanpy_plus/tl/__pycache__/run_scvi.cpython-313.pyc
 **/*.pyc
 **/__pycache__/
+__pycache__/
+.RData
+.Rhistory
+*.pyc
+**/.ipynb_checkpoints/
+.ipynb_checkpoints/
