@@ -128,11 +128,20 @@ sp.pl.plotly_umap(adata)
 
 ## Documentation
 
-- Hosted docs: https://scanpy-plus.readthedocs.io/en/latest/index.html
-- Local build:
+- ReadTheDocs: https://scanpy-plus.readthedocs.io/en/latest/index.html
+- GitHub Pages: https://vjbaskar.github.io/scanpy_plus/ (auto-deployed on push to `main`)
+
+### Enabling GitHub Pages
+
+1. Go to **Settings → Pages** in this repository.
+2. Under **Source**, select **GitHub Actions**.
+3. Push to `main` (or run the workflow manually) — the site will publish automatically.
+
+### Local build
 
 ```bash
-python -m pip install -r docs/requirements.txt
+python -m pip install -r docs/requirements-docs.txt
+pip install --no-deps .
 sphinx-build -b html docs/source docs/build/html
 ```
 
