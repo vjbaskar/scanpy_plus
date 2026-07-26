@@ -42,11 +42,16 @@ python -m pip install git+https://github.com/haniffalab/scanpy_plus.git
 ```
 
 
-## Usage Example (optional — will add later)
+## Usage
 
 ```python
+import scanpy as sc
 import scanpy_plus as sp
 
+adata = sc.read_h5ad("sample.h5ad")
+adata = sp.pp.assign_sex(adata)
+adata = sp.tl.tryumap(adata)
+sp.pl.plotly_umap(adata, color_col="leiden", write_to_file="umap.html")
 
 ```
 
@@ -121,6 +126,20 @@ sp.pl.plotly_umap(adata)
 
 ---
 
+## Documentation
+
+- Hosted docs: https://scanpy-plus.readthedocs.io/en/latest/index.html
+- Local build:
+
+```bash
+python -m pip install -r docs/requirements.txt
+sphinx-build -b html docs/source docs/build/html
+```
+
+Open `docs/build/html/index.html` in your browser.
+
+---
+
 
 ## Resources
 
@@ -134,5 +153,3 @@ sp.pl.plotly_umap(adata)
 ## License
 
 MIT License.
-df
-
