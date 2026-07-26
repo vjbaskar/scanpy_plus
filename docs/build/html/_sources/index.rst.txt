@@ -1,15 +1,19 @@
-Welcome to scanpy_plus's documentation!
-=======================================
+scanpy_plus documentation
+=========================
+
+``scanpy_plus`` extends Scanpy with practical utilities for preprocessing, analysis,
+visualization, and AnnData I/O workflows.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: User Guide
 
-   scanpy_plus.tl
-   scanpy_plus.pp
-   scanpy_plus.io
-   scanpy_plus.pl
-   scanpy_plus.data
+   overview
+   installation
+   usage
+   tutorials/index
+   api/index
+   contributing
 
 
 Indices and tables

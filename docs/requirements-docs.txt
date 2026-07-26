@@ -1,0 +1,7 @@
+# Minimal Sphinx dependencies for building and deploying documentation.
+# Heavy runtime packages (scanpy, anndata, numpy, etc.) are mocked via
+# autodoc_mock_imports in docs/source/conf.py and do not need to be installed.
+
+Sphinx>=8.0
+furo>=2024.1.29
+sphinx-autodoc-typehints>=2.0

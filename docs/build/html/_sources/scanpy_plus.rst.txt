@@ -10,7 +10,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 10
 
    scanpy_plus.data
    scanpy_plus.io
@@ -22,7 +22,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 10
 
    scanpy_plus.describe
    scanpy_plus.get_from_raw
