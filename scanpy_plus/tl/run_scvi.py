@@ -2,7 +2,6 @@ import anndata as ad
 from typing import Union,List
 import scanpy as sc
 import matplotlib.pyplot as plt
-from loguru import logger
 
 def download_cc():
     """
