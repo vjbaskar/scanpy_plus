@@ -14,7 +14,7 @@ dependencies = []
 [project.optional-dependencies]
 # Core stack used by most functions (pulls in anndata, numpy, pandas, scipy,
 # matplotlib, seaborn, scikit-learn via scanpy).
-scanpy = ["scanpy>=1.9", "loguru>=0.7"]
+scanpy = ["scanpy>=1.9", "loguru>=0.7", "requests"]
 # Individual heavy / niche tools
 scvi = ["scvi-tools>=1.0"]
 cellbender = ["cellbender>=0.3"]
@@ -23,6 +23,7 @@ plotly = ["plotly>=5.0", "ipython>=8.0"]
 all = [
     "scanpy>=1.9",
     "loguru>=0.7",
+    "requests",
     "scvi-tools>=1.0",
     "cellbender>=0.3",
     "gseapy>=1.0",
