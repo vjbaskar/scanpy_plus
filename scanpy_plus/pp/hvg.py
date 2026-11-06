@@ -37,7 +37,8 @@ def select_hvg(
     adata,
     ngenes,
     nbatches_min,
-    batch_key
+    batch_key,
+    min_cells = 1000
 ):
     """
     Select highly variable genes based on the number of batches and the number of genes
@@ -60,7 +61,7 @@ def select_hvg(
     
     logger.info("Cleaning batches: relegate small batches out")
     new_batch_key = batch_key + "_1"
-    adata, new_batch_key = clean_batches(adata, batch_key, new_batch_key, min_cells=1000)
+    adata, new_batch_key = clean_batches(adata, batch_key, new_batch_key, min_cells=min_cells) # min_cells to be minimum cells to be in a batch. Small batches can destabilise the VAE
     
     logger.info(f"Selecting HVGs with {ngenes} genes and {nbatches_min} batches")
     sc.pp.highly_variable_genes(
