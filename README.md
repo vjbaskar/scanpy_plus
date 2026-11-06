@@ -35,11 +35,29 @@ python -m pip install scanpy plotly
 
 ### 3. Install `scanpy_plus`
 
-Once dependencies are installed, install `scanpy_plus`:
+`scanpy_plus` is a **light install**: it has no hard dependencies, so you stay in
+control of your scanpy / scvi-tools versions.
 
 ```bash
 python -m pip install git+https://github.com/vjbaskar/scanpy_plus.git
 ```
+
+Optionally, let pip pull in dependencies via extras:
+
+| Extra | Installs | Needed for |
+|---|---|---|
+| `scanpy` | scanpy, loguru | most functions |
+| `scvi` | scvi-tools | `tl.run_scvi` |
+| `cellbender` | cellbender | `pp` CellBender wrappers |
+| `gsea` | gseapy | `tl` GSEA |
+| `plotly` | plotly, ipython | interactive / 3D UMAP plots |
+| `all` | everything above | |
+
+```bash
+python -m pip install "scanpy_plus[scanpy,scvi] @ git+https://github.com/vjbaskar/scanpy_plus.git"
+```
+
+For development: `poetry install --all-extras`.
 
 
 ## Usage

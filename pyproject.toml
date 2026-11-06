@@ -1,14 +1,39 @@
-[tool.poetry]
+[project]
 name = "scanpy-plus"
 version = "0.1.0"
 description = "A suite of commands to supplement scanpy"
-authors = ["Vijaya Baskar <vjbaskar@gmail.com>"]
+authors = [{ name = "Vijaya Baskar", email = "vjbaskar@gmail.com" }]
 readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
 
-[tool.poetry.dependencies]
-python = "^3.7"
+# Light install: no hard dependencies. Users bring their own scanpy stack
+# (and versions), or opt in via the extras below.
+dependencies = []
 
+[project.optional-dependencies]
+# Core stack used by most functions (pulls in anndata, numpy, pandas, scipy,
+# matplotlib, seaborn, scikit-learn via scanpy).
+scanpy = ["scanpy>=1.9", "loguru>=0.7", "requests"]
+# Individual heavy / niche tools
+scvi = ["scvi-tools>=1.0"]
+cellbender = ["cellbender>=0.3"]
+gsea = ["gseapy>=1.0"]
+plotly = ["plotly>=5.0", "ipython>=8.0"]
+all = [
+    "scanpy>=1.9",
+    "loguru>=0.7",
+    "requests",
+    "scvi-tools>=1.0",
+    "cellbender>=0.3",
+    "gseapy>=1.0",
+    "plotly>=5.0",
+    "ipython>=8.0",
+]
+
+[project.urls]
+Repository = "https://github.com/vjbaskar/scanpy_plus"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0"]
 build-backend = "poetry.core.masonry.api"
